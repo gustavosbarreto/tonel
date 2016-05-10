@@ -1,0 +1,65 @@
+var argv = require('yargs')
+  .usage('Usage: $0 --port [num] <options>')
+  .option('h', {
+    alias: 'host',
+    describe: 'Server to provide forwarding'
+  })
+  .option('s', {
+    alias: 'subdomain',
+    describe: 'Subdomain to use'
+  })
+  .option('p', {
+    alias: 'port',
+    describe: 'Internal http server port'
+  })
+  .option('t', {
+    alias: 'token',
+    describe: 'Subdomain authorization token'
+  })
+  .require('host')
+  .require('port')
+  .help('help', 'Show this help')
+  .argv;
+
+var uuid = require('node-uuid');
+var io = require('socket.io-client');
+var request = require('request');
+
+var subdomain = argv.subdomain || uuid.v4().replace(/-/g, '');
+
+var client = io('ws://' + subdomain + '.' + argv.host);
+
+function sendResponse(id, statusCode, headers, body) {
+  client.emit('RESPONSE', {
+    id: id,
+    statusCode: statusCode,
+    headers: headers,
+    body: body });
+}
+
+client.on('connect', function() {
+  client.emit('CONNECT', { token: argv.token || '' });
+});
+
+client.on('READY', function() {
+  console.log('Your URL is: http://' + subdomain + '.' + argv.host);
+});
+
+client.on('UNAUTHORIZED', function() {
+  console.log('You cannot use this subdomain. Check your token');
+});
+
+client.on('REQUEST', function(req) {
+  request({
+    url: 'http://localhost:' + argv.port + req.url,
+    headers: req.headers,
+    method: req.method,
+    form: req.body
+  }, function(err, res, body) {
+    if (err) {
+      sendResponse(req.id, 502, {}, err.toString());
+    } else {
+      sendResponse(req.id, res.statusCode, res.headers || {}, body);
+    }
+  });
+});

@@ -1,0 +1,6 @@
+'use strict';
+
+var config = require('../config');
+var httpServer = require('../lib/httpServer');
+
+httpServer.listen(config.tunnel.port);

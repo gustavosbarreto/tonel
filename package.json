@@ -2,9 +2,6 @@
   "name": "tonel",
   "version": "1.0.0",
   "description": "HTTP tunnel to localhost",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gustavosbarreto/tonel.git"
@@ -22,6 +19,10 @@
     "url": "https://github.com/gustavosbarreto/tonel/issues"
   },
   "homepage": "https://github.com/gustavosbarreto/tonel#readme",
+  "bin": {
+    "tonel-server": "./bin/tonel-server",
+    "tonel-client": "./bin/tonel-client"
+  },
   "dependencies": {
     "body-parser": "^1.15.1",
     "express": "^4.13.4",

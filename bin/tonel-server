@@ -1,6 +1,37 @@
 #!/usr/bin/env node
 
-var config = require('../config');
+var argv = require('yargs')
+  .usage('Usage: $0 <options>')
+  .option('t', {
+    alias: 'timeout',
+    describe: 'HTTP request timeout'
+  })
+  .option('p', {
+    alias: 'port',
+    describe: 'Port to listen'
+  })
+  .option('r', {
+    alias: 'redis',
+    describe: 'Redis host:port'
+  })
+  .default('port', 80)
+  .default('redis', 'localhost:6379')
+  .default('timeout', 45 * 1000)
+  .help('help', 'Show this help')
+  .argv;
+
+var config = require('../lib/config');
+
+config.tunnel = {
+  port: argv.port,
+  timeout: argv.timeout
+};
+
+config.redis = {
+  host: argv.redis.split(':')[0],
+  port: argv.redis.split(':')[1]
+};
+
 var httpServer = require('../lib/httpServer');
 
 httpServer.listen(config.tunnel.port);

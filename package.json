@@ -1,0 +1,36 @@
+{
+  "name": "tonel",
+  "version": "1.0.0",
+  "description": "HTTP tunnel to localhost",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gustavosbarreto/tonel.git"
+  },
+  "keywords": [
+    "tunnel",
+    "http",
+    "localhost",
+    "websocket",
+    "proxy"
+  ],
+  "author": "Luis Gustavo S. Barreto",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gustavosbarreto/tonel/issues"
+  },
+  "homepage": "https://github.com/gustavosbarreto/tonel#readme",
+  "dependencies": {
+    "body-parser": "^1.15.1",
+    "express": "^4.13.4",
+    "node-uuid": "^1.4.7",
+    "qs": "^6.2.0",
+    "redis": "^2.6.0-2",
+    "requests": "^0.1.7",
+    "socket.io": "^1.4.6",
+    "tldjs": "^1.6.2",
+    "yargs": "^4.7.0"
+  }
+}

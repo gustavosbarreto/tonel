@@ -6,7 +6,7 @@
 
 ## Installation
 
-    $ npm install tonel
+    $ npm install -g tonel
 
 ## Usage
 
